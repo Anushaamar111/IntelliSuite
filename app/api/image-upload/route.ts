@@ -20,7 +20,7 @@ cloudinary.config({
 
 interface CloudinaryUploadResult {
   public_id: string; // The unique identifier assigned by Cloudinary to the uploaded asset.
-  [key: string]: any; // Allow additional properties returned by Cloudinary to be captured.
+  [key: string]: unknown; // Allow additional properties returned by Cloudinary to be captured.
 }
 
 // Handle the POST request for uploading an image.

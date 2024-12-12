@@ -81,7 +81,6 @@ export async function POST(request: NextRequest) {
         compressedSize: String(result.bytes),
         duration: result.duration || 0,
         userId,
-        videoUrl: result.secure_url, // Storing secure URL for later use
       },
     });
 
