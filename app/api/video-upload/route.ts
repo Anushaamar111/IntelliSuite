@@ -81,6 +81,7 @@ export async function POST(request: NextRequest) {
         compressedSize: String(result.bytes),
         duration: result.duration || 0,
         userId,
+
       },
     });
 
