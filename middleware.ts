@@ -15,6 +15,19 @@ export default clerkMiddleware(async (auth, req) => {
   const currentUrl = new URL(req.url);
   const isApiRequest = currentUrl.pathname.startsWith("/api");
 
+  // Create a response
+  const response = NextResponse.next();
+
+  // Ensure cookies have SameSite=None and Secure attributes
+  response.headers.append(
+    "Set-Cookie",
+    "__cf_bm=exampleValue; Path=/; Secure; SameSite=None; HttpOnly"
+  );
+  response.headers.append(
+    "Set-Cookie",
+    "_cfuvid=exampleValue; Path=/; Secure; SameSite=None; HttpOnly"
+  );
+
   // If the user is logged in and tries to access sign-in or sign-up, redirect to /home
   if (userId && isPublicRoute(req)) {
     if (
@@ -39,7 +52,7 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Proceed to the next middleware or route
-  return NextResponse.next();
+  return response;
 });
 
 export const config = {

@@ -78,6 +78,8 @@ export default function AppLayout({
                         alt={
                           user.username || user.emailAddresses[0].emailAddress
                         }
+                        width={400} // Specify appropriate width
+                        height={300} // Specify appropriate height
                       />
                     </div>
                   </div>

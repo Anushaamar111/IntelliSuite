@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // Skips ESLint during builds
   },
+  images: {
+    domains: ["img.clerk.com", "res.cloudinary.com"],
+  },
 };
 
 export default nextConfig;

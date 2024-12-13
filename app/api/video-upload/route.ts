@@ -20,6 +20,7 @@ interface CloudinaryUploadResult {
   bytes: number;
   duration?: number;
   secure_url: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -86,6 +87,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(video);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Upload video failed:", error.message, error.stack);
 
