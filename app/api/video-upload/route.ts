@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
           resource_type: "video",
           folder: CLOUDINARY_FOLDER,
           transformation: CLOUDINARY_TRANSFORMATION,
+          max_file_size: 100 * 1024 * 1024,
         },
         (error, result) => {
           if (error) {
