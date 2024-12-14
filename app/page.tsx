@@ -27,20 +27,22 @@ export default function Home() {
         </div>
 
         {/* Card 2 */}
+        <Link href="/image-upload">
         <div className="card bg-base-100 w-96 shadow-xl">
           <figure>
             <img src="/images/photo1.png" />
           </figure>
           <div className="card-body">
             <div className="card-actions justify-end">
-              <Link href="/image-upload">
+             
                 <button className="btn btn-primary w-44 ml-20 mr-20">
                   Upload Image
                 </button>
-              </Link>
+             
             </div>
           </div>
         </div>
+        </Link>
 
         {/* Card 3 */}
         <div className="card bg-base-100 w-96 shadow-xl">
