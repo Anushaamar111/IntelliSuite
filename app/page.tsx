@@ -25,18 +25,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <figure>
-          <img src="/images/image.png" alt="video upload" />
-        </figure>
-        <div className="card-body">
-          <div className="card-actions justify-end">
-            <Link href="/video-uplaod">
-              <button className="btn btn-primary  w-44 ml-20 mr-20">
-                Upload Video
-              </button>
-            </Link>
-          </div>
-        </div>
       </div>
     </div>
   );
