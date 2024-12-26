@@ -1,65 +1,75 @@
-import Link from "next/link";
+"use client";
+import React, { useState, useEffect, useCallback } from "react";
+import VideoCard from "@/components/VideoCard";
+import { Video } from "@/types";
 
-export default function Home() {
+function Home() {
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchVideos = useCallback(async () => {
+    try {
+      const response = await fetch("/api/video");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch videos: ${response.statusText}`);
+      }
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setVideos(data);
+      } else {
+        throw new Error("Unexpected response format");
+      }
+    } catch (err) {
+      console.error("Error fetching videos:", err);
+      setError("Failed to fetch videos. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchVideos();
+  }, [fetchVideos]);
+
+  const handleDownload = useCallback((url: string, title: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${title}.mp4`);
+    link.setAttribute("target", "_blank");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900">
-      {/* Welcome Text */}
-      <h1 className="text-4xl font-bold mb-10 text-center m-12 p-11 text">
-        Welcome to Intelli-Suite
-      </h1>
-
-      {/* Card Container */}
-      <div className="flex flex-wrap justify-center gap-8 ">
-        {/* Card 1 */}
-        <div className="card bg-base-100 w-96 shadow-xl h-90; /* if --fallback-bc isn't set */">
-          <figure>
-            <img src="/images/home.webp" />
-          </figure>
-          <div className="card-body">
-            <div className="card-actions justify-end">
-              <Link href="/home">
-                <button className="btn btn-primary  w-44 ml-20 mr-20">
-                  Home
-                </button>
-              </Link>
-            </div>
-          </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Videos</h1>
+      {videos.length === 0 ? (
+        <div className="text-center text-lg text-gray-500">
+          No videos available
         </div>
-
-        {/* Card 2 */}
-        <Link href="/image-upload">
-        <div className="card bg-base-100 w-96 shadow-xl">
-          <figure>
-            <img src="/images/photo1.png" />
-          </figure>
-          <div className="card-body">
-            <div className="card-actions justify-end">
-             
-                <button className="btn btn-primary w-44 ml-20 mr-20">
-                  Upload Image
-                </button>
-             
-            </div>
-          </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos.map((video) => (
+            <VideoCard
+              key={video.id}
+              video={video}
+              onDownload={() => handleDownload(video.url, video.title)}
+            />
+          ))}
         </div>
-        </Link>
-
-        {/* Card 3 */}
-        <div className="card bg-base-100 w-96 shadow-xl">
-          <figure>
-            <img src="/images/image.png" alt="video upload" />
-          </figure>
-          <div className="card-body">
-            <div className="card-actions justify-end">
-              <Link href="/video-uplaod">
-                <button className="btn btn-primary  w-44 ml-20 mr-20">
-                  Upload Video
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
+
+export default Home;
